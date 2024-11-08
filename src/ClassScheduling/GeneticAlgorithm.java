@@ -1,6 +1,7 @@
 package ClassScheduling;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -13,7 +14,7 @@ public class GeneticAlgorithm {
     private double mutation;
     private int populationSize;
     private int maxGenerations;
-    private int eliteProspects;
+    private int eliteProspects; // at least one
     private ScheduleData scheduleData;
     private List<Chromosome> population;
     private Random random;
@@ -22,7 +23,6 @@ public class GeneticAlgorithm {
     public GeneticAlgorithm(ScheduleData scheduleData){
         this.scheduleData = scheduleData;
         random = new Random();
-        eliteProspects = (int)(populationSize*ELITISM); // amount of elite members to bring over
         population = new ArrayList<>();
     }
 
@@ -32,6 +32,7 @@ public class GeneticAlgorithm {
         this.mutation = mutation;
         this.populationSize = populationSize;
         this.maxGenerations = maxGenerations;
+        eliteProspects = (int)(Math.ceil(populationSize*ELITISM)); // amount of elite members to bring over
     }
 
 
@@ -39,18 +40,23 @@ public class GeneticAlgorithm {
 
         population.clear();
 
+        // initialize the population with random chromosomes
         for (int i = 0; i < populationSize; i++) {
             Chromosome c = new Chromosome(scheduleData);
             c.randomInitializer();
             population.add(c);
         }
 
+        // run the algorithm for x generations
         for (int i = 0; i < maxGenerations; i++) {
             List<Chromosome> newPopulation = new ArrayList<>();
 
-            // add elite prospects
-            // TODO make it more than one in future
-            newPopulation.add(tournamentSelection(population));
+            // add elite prospects, sort population
+            population.sort(Collections.reverseOrder());
+            for (int j = 0; j < eliteProspects; j++) {
+                // Now add the amount of elite prospects to our new population
+                newPopulation.add(population.get(j));
+            }
 
             while(newPopulation.size()<populationSize){
                 // get the two best parents from a subset of parents
@@ -66,7 +72,7 @@ public class GeneticAlgorithm {
                     children.add(parent1);
                     children.add(parent2);
                 }
-
+                // now mutate
                 children.get(0).mutate(mutation);
                 children.get(1).mutate(mutation);
                 children.get(0).calculateFitness();

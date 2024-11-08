@@ -2,7 +2,7 @@ package ClassScheduling;
 
 import java.util.*;
 
-public class Chromosome {
+public class Chromosome implements Comparable<Chromosome>{
     private List<Gene> geneList;
     private double fitness;
     private final int size;
@@ -211,5 +211,9 @@ public class Chromosome {
     }
 
 
+    @Override
+    public int compareTo(Chromosome o) {
+        return Double.compare(this.getFitness(), o.getFitness());
+    }
 
 }
