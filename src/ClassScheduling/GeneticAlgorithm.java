@@ -57,18 +57,23 @@ public class GeneticAlgorithm {
                 Chromosome parent1 = tournamentSelection(tournamentSubset());
                 Chromosome parent2 = tournamentSelection(tournamentSubset());
 
-                if(random.nextDouble() > crossover)
-                    continue;
+                List<Chromosome> children = new ArrayList<>();
 
-                List<Chromosome> children = parent1.uniformCrossover(parent2);
+                if(random.nextDouble() < crossover) {
+                    children = parent1.uniformCrossover(parent2);
+
+                }else{
+                    children.add(parent1);
+                    children.add(parent2);
+                }
 
                 children.get(0).mutate(mutation);
                 children.get(1).mutate(mutation);
                 children.get(0).calculateFitness();
                 children.get(1).calculateFitness();
-
                 newPopulation.add(children.get(0));
                 newPopulation.add(children.get(1));
+
             }
             population = newPopulation;
             //System.out.println("generation "+i+" fitness:"+population.get(0).getFitness());

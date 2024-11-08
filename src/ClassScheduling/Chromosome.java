@@ -202,21 +202,14 @@ public class Chromosome {
      */
     public void mutate(double mutationRate){
 
-        for (Gene current: geneList) {
+        Gene current = geneList.get(random.nextInt(size));
 
-            if(random.nextDouble() > mutationRate){
-                continue;
-            }
-            // mutate room
-            if(random.nextBoolean()){
-                current.setRoom(scheduleData.getRandomRooms());
-            }
-            // mutate time slot
-            if(random.nextBoolean()){
-                current.setTimeSlot(scheduleData.getRandomTimeSlots());
-            }
+        if(random.nextDouble() < mutationRate){
+            current.setRoom(scheduleData.getRandomRooms());
+            current.setTimeSlot(scheduleData.getRandomTimeSlots());
         }
     }
+
 
 
 }

@@ -31,7 +31,7 @@ public class Gene {
     public boolean overlaps(Gene other) {
 
         // if they are on different days then they cannot overlap
-        if(!this.getTimeSlot().getDay().equals(other.getTimeSlot().getDay())){
+        if(!(this.getTimeSlot().getDay()).equals(other.getTimeSlot().getDay())){
             return false; // so just return false
         }
 
