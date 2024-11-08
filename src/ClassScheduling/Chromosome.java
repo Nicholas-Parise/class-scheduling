@@ -1,8 +1,6 @@
 package ClassScheduling;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Chromosome {
     private List<Gene> geneList;
@@ -51,9 +49,8 @@ public class Chromosome {
      * Initialize the chromosome with randomly generated genes
      */
     public void randomInitializer(){
-
-        for (int i = 0; i < size; i++) {
-            Course c = scheduleData.getRandomCourses();
+        // This makes sure the population actually has each course
+        for (Course c:scheduleData.getCourses()) {
             Room r = scheduleData.getRandomRooms();
             TimeSlot t = scheduleData.getRandomTimeSlots();
             geneList.add(new Gene(c,r,t));
@@ -80,7 +77,7 @@ public class Chromosome {
             TimeSlot timeSlot = current.getTimeSlot();
 
             if(course.getStudents() > room.getCapacity()){
-                conflicts ++;
+                conflicts +=2;
             }
 
             for (int j = 0; j < size; j++) {
@@ -92,7 +89,7 @@ public class Chromosome {
                 if(room.equals(other.getRoom())){ // if were in the same room
                     // and the timeslots overlap
                     if(current.overlaps(other)){
-                        conflicts++; // then there is a conflict
+                        conflicts+=3; // then there is a conflict
                     }
                 }
 
@@ -123,23 +120,44 @@ public class Chromosome {
         List<Gene> child2 = new ArrayList<>();
         List<Chromosome> children = new ArrayList<>();
 
+        Set<Course> addedCoursesChild1 = new HashSet<>();
+        Set<Course> addedCoursesChild2 = new HashSet<>();
+
         for (int i = 0; i < size; i++) {
             // this acts as our mask. If its true we get parent 1's gene (this)
             // and if its 0 we get parent 2's gene (other)
             if (random.nextBoolean()) {
                 child1.add(new Gene(getGeneList().get(i)));
+                addedCoursesChild1.add(getGeneList().get(i).getCourse());
                 child2.add(new Gene(other.getGeneList().get(i)));
+                addedCoursesChild2.add(other.getGeneList().get(i).getCourse());
             }else{
-                child1.add(new Gene(other.getGeneList().get(i)));
-                child2.add(new Gene(getGeneList().get(i)));
+          //      child1.add(new Gene(other.getGeneList().get(i)));
+           //     child2.add(new Gene(getGeneList().get(i)));
             }
         }
+
+        child1 = addMissing(child1, other, addedCoursesChild1);
+        child2 = addMissing(child2, this, addedCoursesChild2);
 
         children.add(new Chromosome(scheduleData,child1));
         children.add(new Chromosome(scheduleData,child2));
 
         return children;
     }
+
+    private static List<Gene> addMissing(List<Gene> child, Chromosome parent, Set<Course> addedCourses){
+
+        for (Gene g:parent.getGeneList()) {
+            if(!addedCourses.contains(g.getCourse())){
+                child.add(g);
+                addedCourses.add(g.getCourse());
+            }
+        }
+        return child;
+    }
+
+
 
 
     /**
@@ -179,7 +197,7 @@ public class Chromosome {
 
     /**
      * Given a mutation rate go through each gene and
-     * randomly change each parameter to a new random variable
+     * randomly change the room and/or timeslot
      * @param mutationRate
      */
     public void mutate(double mutationRate){
@@ -188,11 +206,6 @@ public class Chromosome {
 
             if(random.nextDouble() > mutationRate){
                 continue;
-            }
-
-            // mutate course
-            if(random.nextBoolean()){
-                current.setCourse(scheduleData.getRandomCourses());
             }
             // mutate room
             if(random.nextBoolean()){

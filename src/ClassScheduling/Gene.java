@@ -67,4 +67,13 @@ public class Gene {
     public void setTimeSlot(TimeSlot timeSlot) {
         this.timeSlot = timeSlot;
     }
+
+    @Override
+    public String toString() {
+        return "Gene{" +
+                "course=" + course +
+                ", room=" + room +
+                ", timeSlot=" + timeSlot +
+                '}';
+    }
 }

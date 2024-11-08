@@ -4,14 +4,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ScheduleData scheduleData = new ScheduleData("t1/courses.txt", "t1/rooms.txt", "t1/timeSlots.txt");
+        ScheduleData scheduleData = new ScheduleData("t2/courses.txt", "t2/rooms.txt", "t2/timeSlots.txt");
         GeneticAlgorithm GA = new GeneticAlgorithm(scheduleData);
-        GA.set(1.0,0.1,100,500);
-        GA.run();
+        GA.set(1.0,0.01,200,5000);
 
-        Chromosome c = new Chromosome(scheduleData);
-        c.randomInitializer();
-        System.out.println(c.getFitness());
+        for (int i = 0; i < 50; i++) {
+            GA.run();
+        }
 
 
     }

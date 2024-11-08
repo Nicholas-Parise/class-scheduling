@@ -18,11 +18,14 @@ public class GeneticAlgorithm {
     private List<Chromosome> population;
     private Random random;
 
+
     public GeneticAlgorithm(ScheduleData scheduleData){
         this.scheduleData = scheduleData;
         random = new Random();
         eliteProspects = (int)(populationSize*ELITISM); // amount of elite members to bring over
+        population = new ArrayList<>();
     }
+
 
     public void set(double crossover, double mutation, int populationSize, int maxGenerations){
         this.crossover = crossover;
@@ -33,6 +36,8 @@ public class GeneticAlgorithm {
 
 
     public void run(){
+
+        population.clear();
 
         for (int i = 0; i < populationSize; i++) {
             Chromosome c = new Chromosome(scheduleData);
@@ -66,11 +71,20 @@ public class GeneticAlgorithm {
                 newPopulation.add(children.get(1));
             }
             population = newPopulation;
-            System.out.println("generation "+i+population.get(0).getFitness());
+            //System.out.println("generation "+i+" fitness:"+population.get(0).getFitness());
+            if(population.get(0).getFitness() == 1 || i == maxGenerations-1){
+                System.out.println("found solution on generation: "+i);
+                System.out.println("fitness:"+population.get(0).getFitness());
+                //for (Gene g:population.get(0).getGeneList()) {
+                 //   System.out.println(g.getCourse());
+                //}
+
+                break;
+            }
+
         }
 
     }
-
 
     /**
      * gets the best perform tournament selection on the given subset of Chromosomes
@@ -103,7 +117,6 @@ public class GeneticAlgorithm {
             subset.add(population.get(index));
         }
         return subset;
-
     }
 
 
