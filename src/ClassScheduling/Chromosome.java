@@ -30,6 +30,12 @@ public class Chromosome {
 
 
     public double getFitness() {
+
+        if(fitness == 0){
+            // if we forget to calculate fitness before getting fitness
+            // we will run it here
+            calculateFitness();
+        }
         return fitness;
     }
 
@@ -41,6 +47,9 @@ public class Chromosome {
         this.geneList = geneList;
     }
 
+    /**
+     * Initialize the chromosome with randomly generated genes
+     */
     public void randomInitializer(){
 
         for (int i = 0; i < size; i++) {

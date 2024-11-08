@@ -5,29 +5,15 @@ public class Main {
     public static void main(String[] args) {
 
         ScheduleData scheduleData = new ScheduleData("t1/courses.txt", "t1/rooms.txt", "t1/timeSlots.txt");
+        GeneticAlgorithm GA = new GeneticAlgorithm(scheduleData);
+        GA.set(1.0,0.1,100,500);
+        GA.run();
 
-        System.out.println("test");
+        Chromosome c = new Chromosome(scheduleData);
+        c.randomInitializer();
+        System.out.println(c.getFitness());
 
-        /*
-        Puzzle start = new Puzzle();
-        start.loadPuzzle("puzzle_input.txt");
 
-        Puzzle goal = new Puzzle(start.getSize());
-        goal.createSolution();
-
-        System.out.println("Iterative depth first search");
-        Puzzle solution = Solver.IDDFS(start, goal, 15);
-        Puzzle.print(solution);
-
-        System.out.println("A*");
-        Puzzle solution2 = Solver.AStar(start, goal);
-        Puzzle.print(solution2);
-
-        System.out.println("Iterative deepening A*");
-        Puzzle solution3 = Solver.IDAStar(start, goal);
-        Puzzle.print(solution3);
-
-    */
     }
 
 }
