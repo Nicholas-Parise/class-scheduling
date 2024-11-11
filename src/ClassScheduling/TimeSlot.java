@@ -33,4 +33,12 @@ public class TimeSlot {
     public int hashCode() {
         return Objects.hash(getHour(), getDay());
     }
+
+    @Override
+    public String toString() {
+        return "TimeSlot{" +
+                "hour=" + hour +
+                ", day=" + day +
+                '}';
+    }
 }

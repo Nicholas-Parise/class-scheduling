@@ -19,11 +19,13 @@ public class GeneticAlgorithm {
     private List<Chromosome> population;
     private Random random;
     private CrossoverType crossoverType;
+    private OutputMode outputMode;
 
     public GeneticAlgorithm(ScheduleData scheduleData){
         this.scheduleData = scheduleData;
         random = Seed.getInstance().getRandom();
         population = new ArrayList<>();
+        outputMode = OutputMode.CSV;
     }
 
 
@@ -94,18 +96,31 @@ public class GeneticAlgorithm {
                 newPopulation.add(children.get(1));
             }
 
+            if(outputMode == OutputMode.USER) {
+                System.out.println("Generation:" + i);
+                System.out.format("the highest fitness reached:%.3f \n", population.get(0).getFitness());
+                System.out.format("Average fitness:%.3f \n", averageFitness());
+            }else{
+                System.out.println(i+","+population.get(0).getFitness()+","+averageFitness());
+            }
+
             population = newPopulation;
 
             if(population.get(0).getFitness() == 1 || i == maxGenerations-1){
 
-                if(population.get(0).getFitness() == 1) {
-                    System.out.println("found solution on generation: " + i);
-                }else{
-                    System.out.println("Didn't find a solution");
-                    System.out.println("the highest fitness reached:"+population.get(0).getFitness());
+                if(outputMode == OutputMode.USER) {
+                    if (population.get(0).getFitness() == 1) {
+                        System.out.println("found solution on generation: " + i);
+                    } else {
+                        System.out.println("Didn't find a solution");
+                        System.out.println("the highest fitness reached:" + population.get(0).getFitness());
+                    }
                 }
 
-                System.out.println("Average fitness:"+averageFitness());
+                System.out.println("--- best solution Chromosome ---");
+                System.out.println(population.get(0));
+                System.out.println("------");
+
                 break;
             }
 

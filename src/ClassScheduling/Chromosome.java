@@ -236,4 +236,10 @@ public class Chromosome implements Comparable<Chromosome>{
         return Double.compare(this.getFitness(), o.getFitness());
     }
 
+    @Override
+    public String toString() {
+        return "Chromosome{" +
+                "geneList=" + geneList +
+                '}';
+    }
 }
