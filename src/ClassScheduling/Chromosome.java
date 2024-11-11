@@ -146,18 +146,6 @@ public class Chromosome implements Comparable<Chromosome>{
         return children;
     }
 
-    private static List<Gene> addMissing(List<Gene> child, Chromosome parent, Set<Course> addedCourses){
-
-        for (Gene g:parent.getGeneList()) {
-            if(!addedCourses.contains(g.getCourse())){
-                child.add(g);
-                addedCourses.add(g.getCourse());
-            }
-        }
-        return child;
-    }
-
-
 
 
     /**
@@ -172,6 +160,9 @@ public class Chromosome implements Comparable<Chromosome>{
         List<Gene> child2 = new ArrayList<>();
         List<Chromosome> children = new ArrayList<>();
 
+        Set<Course> addedCoursesChild1 = new HashSet<>();
+        Set<Course> addedCoursesChild2 = new HashSet<>();
+
         int point1 = random.nextInt(size);
         int point2 = random.nextInt(size);
 
@@ -181,18 +172,47 @@ public class Chromosome implements Comparable<Chromosome>{
         for (int i = 0; i < size; i++) {
             if (i <= start || i >= end) {
                 child1.add(new Gene(getGeneList().get(i)));
+                addedCoursesChild1.add(getGeneList().get(i).getCourse());
                 child2.add(new Gene(other.getGeneList().get(i)));
+                addedCoursesChild2.add(other.getGeneList().get(i).getCourse());
             }else{
-                child1.add(new Gene(other.getGeneList().get(i)));
-                child2.add(new Gene(getGeneList().get(i)));
+                //child1.add(new Gene(other.getGeneList().get(i)));
+                //child2.add(new Gene(getGeneList().get(i)));
             }
         }
+
+        child1 = addMissing(child1, other, addedCoursesChild1);
+        child2 = addMissing(child2, this, addedCoursesChild2);
 
         children.add(new Chromosome(scheduleData,child1));
         children.add(new Chromosome(scheduleData,child2));
 
         return children;
     }
+
+
+    /**
+     * This method takes in a child and the other parent along with the set of added courses.
+     * ex: (child 1, parent 2)
+     * It goes through this set and adds all courses to the child that it hasn't received yet.
+     * This makes sure the chromosome has one of each courses.
+     *
+     * @param child the child chromosome
+     * @param parent the other parent chromosome
+     * @param addedCourses set of courses in child
+     * @return the complete child with all the courses added successfully.
+     */
+    private static List<Gene> addMissing(List<Gene> child, Chromosome parent, Set<Course> addedCourses){
+
+        for (Gene g:parent.getGeneList()) {
+            if(!addedCourses.contains(g.getCourse())){
+                child.add(g);
+                addedCourses.add(g.getCourse());
+            }
+        }
+        return child;
+    }
+
 
 
     /**

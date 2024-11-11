@@ -18,7 +18,7 @@ public class GeneticAlgorithm {
     private ScheduleData scheduleData;
     private List<Chromosome> population;
     private Random random;
-
+    private CrossoverType crossoverType;
 
     public GeneticAlgorithm(ScheduleData scheduleData){
         this.scheduleData = scheduleData;
@@ -27,13 +27,15 @@ public class GeneticAlgorithm {
     }
 
 
-    public void set(double crossover, double mutation, int populationSize, int maxGenerations){
+    public void set(double crossover, double mutation, int populationSize, int maxGenerations, CrossoverType crossoverType){
         this.crossover = crossover;
         this.mutation = mutation;
         this.populationSize = populationSize;
         this.maxGenerations = maxGenerations;
+        this.crossoverType = crossoverType;
         eliteProspects = (int)(Math.ceil(populationSize*ELITISM)); // amount of elite members to bring over
     }
+
 
 
     public void run(){
@@ -66,7 +68,16 @@ public class GeneticAlgorithm {
                 List<Chromosome> children = new ArrayList<>();
 
                 if(random.nextDouble() < crossover) {
-                    children = parent1.uniformCrossover(parent2);
+
+                    switch (crossoverType) {
+                        case TWO_POINT:
+                            children = parent1.twoPointCrossover(parent2);
+                            break;
+                        default:
+                        case UNIFORM:
+                            children = parent1.uniformCrossover(parent2);
+                            break;
+                    }
 
                 }else{
                     children.add(parent1);
@@ -75,12 +86,14 @@ public class GeneticAlgorithm {
                 // now mutate
                 children.get(0).mutate(mutation);
                 children.get(1).mutate(mutation);
+                // calculate fitness
                 children.get(0).calculateFitness();
                 children.get(1).calculateFitness();
+                // and add to the list
                 newPopulation.add(children.get(0));
                 newPopulation.add(children.get(1));
-
             }
+
             population = newPopulation;
             //System.out.println("generation "+i+" fitness:"+population.get(0).getFitness());
             if(population.get(0).getFitness() == 1 || i == maxGenerations-1){
