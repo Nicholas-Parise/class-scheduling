@@ -18,7 +18,7 @@ public class ScheduleData {
         courses = loadCourses(course);
         rooms = loadRooms(room);
         timeSlots = loadTimeSlot(timeSlot);
-        random = new Random();
+        random = Seed.getInstance().getRandom();
     }
 
     public List<Course> getCourses() {
@@ -31,11 +31,6 @@ public class ScheduleData {
 
     public List<TimeSlot> getTimeSlots() {
         return timeSlots;
-    }
-
-    public Course getRandomCourses() {
-        int index = random.nextInt(courses.size());
-        return courses.get(index);
     }
 
     public Room getRandomRooms() {
@@ -63,7 +58,7 @@ public class ScheduleData {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
 
-                System.out.println(parts[0]+" "+parts[1]);
+                //System.out.println(parts[0]+" "+parts[1]);
                 Day day = Day.valueOf(parts[0].trim().toUpperCase());
                 int hour = Integer.parseInt(parts[1]);
                 list.add(new TimeSlot(day,hour));
@@ -90,7 +85,7 @@ public class ScheduleData {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
 
-                System.out.println(parts[0]+" "+parts[1]);
+                //System.out.println(parts[0]+" "+parts[1]);
                 String name = parts[0];
                 int capacity = Integer.parseInt(parts[1]);
                 list.add(new Room(name,capacity));
@@ -117,7 +112,7 @@ public class ScheduleData {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
 
-                System.out.println(parts[0]+" "+parts[1]+" "+parts[2]+" "+parts[3]);
+                //System.out.println(parts[0]+" "+parts[1]+" "+parts[2]+" "+parts[3]);
                 String name = parts[0];
                 String profName = parts[1];
                 int students = Integer.parseInt(parts[2]);

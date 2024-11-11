@@ -22,7 +22,7 @@ public class GeneticAlgorithm {
 
     public GeneticAlgorithm(ScheduleData scheduleData){
         this.scheduleData = scheduleData;
-        random = new Random();
+        random = Seed.getInstance().getRandom();
         population = new ArrayList<>();
     }
 
@@ -144,4 +144,14 @@ public class GeneticAlgorithm {
     }
 
 
+    @Override
+    public String toString() {
+        return "GeneticAlgorithm{" +
+                "crossover=" + crossover +
+                ", mutation=" + mutation +
+                ", populationSize=" + populationSize +
+                ", maxGenerations=" + maxGenerations +
+                ", crossoverType=" + crossoverType +
+                '}';
+    }
 }

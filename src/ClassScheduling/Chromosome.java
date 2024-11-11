@@ -15,7 +15,7 @@ public class Chromosome implements Comparable<Chromosome>{
         this.size = scheduleData.getCourses().size();
         fitness = 0;
         geneList = new ArrayList<>();
-        random = new Random();
+        random = Seed.getInstance().getRandom();
     }
 
     // this constructor is used for cross over,
