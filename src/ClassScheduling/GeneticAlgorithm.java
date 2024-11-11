@@ -95,16 +95,20 @@ public class GeneticAlgorithm {
             }
 
             population = newPopulation;
-            //System.out.println("generation "+i+" fitness:"+population.get(0).getFitness());
-            if(population.get(0).getFitness() == 1 || i == maxGenerations-1){
-                System.out.println("found solution on generation: "+i);
-                System.out.println("fitness:"+population.get(0).getFitness());
-                //for (Gene g:population.get(0).getGeneList()) {
-                 //   System.out.println(g.getCourse());
-                //}
 
+            if(population.get(0).getFitness() == 1 || i == maxGenerations-1){
+
+                if(population.get(0).getFitness() == 1) {
+                    System.out.println("found solution on generation: " + i);
+                }else{
+                    System.out.println("Didn't find a solution");
+                    System.out.println("the highest fitness reached:"+population.get(0).getFitness());
+                }
+
+                System.out.println("Average fitness:"+averageFitness());
                 break;
             }
+
 
         }
 
@@ -142,6 +146,19 @@ public class GeneticAlgorithm {
         }
         return subset;
     }
+
+    /**
+     * get the average fitness of the population
+     * @return
+     */
+    private double averageFitness(){
+        double sum = 0;
+        for (Chromosome c:population) {
+            sum +=  c.getFitness();
+        }
+        return sum/populationSize;
+    }
+
 
 
     @Override

@@ -5,10 +5,12 @@ import java.util.Random;
 public class Seed {
 
     private static Seed instance;
-    private static long seedNum = 7242530L;
+    private static long seedNum = 724253011182003L;
+    //private static long seedNum = System.currentTimeMillis();
     private Random random;
 
     public Seed(){
+
         this.random = new Random(seedNum);
     }
 

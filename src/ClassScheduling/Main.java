@@ -12,6 +12,8 @@ public class Main {
         if (args.length < 5) {
             System.out.println("expected Args: <popSize> <maxGenerations> <crossoverRate> <mutationRate> <crossoverType>");
             System.out.println("CrossoverType options: UNIFORM, TWO_POINT");
+            GA.set(1.0,0.1,200,1000,CrossoverType.UNIFORM);
+            System.out.println("Applying preset ARGS");
             //System.exit(1);
         }else{
             int populationSize = Integer.parseInt(args[0]);
@@ -28,8 +30,6 @@ public class Main {
             }
             GA.set(crossoverRate,mutationRate,populationSize,maxGenerations,crossoverType);
         }
-
-//        GA.set(1.0,0.2,200,1000,CrossoverType.UNIFORM);
 
         System.out.println(GA);
         System.out.println(Seed.getInstance());
