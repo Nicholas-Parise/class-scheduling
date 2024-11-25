@@ -12,6 +12,8 @@ maxGenerations: int [0, inf]
 crossoverRate:	double [0, 1.0]
 mutationRate:	double [0, 1.0]
 CrossoverType: 	UNIFORM, TWO_POINT
+Seed:           <0 or VALUE
 
 Notes:
 mutation Rate should stay lower than 20% or it will probably never converge.
+A Seed of less than zero is a flag to be system current time.

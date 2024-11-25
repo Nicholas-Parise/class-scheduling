@@ -2,18 +2,18 @@ package ClassScheduling;
 
 public class Main {
 
-
-
     public static void main(String[] args) {
 
         ScheduleData scheduleData = new ScheduleData("t2/courses.txt", "t2/rooms.txt", "t2/timeSlots.txt");
         GeneticAlgorithm GA = new GeneticAlgorithm(scheduleData);
 
-        if (args.length < 5) {
-            System.out.println("expected Args: <popSize> <maxGenerations> <crossoverRate> <mutationRate> <crossoverType>");
+        if (args.length < 6) {
+            System.out.println("expected Args: <popSize> <maxGenerations> <crossoverRate> <mutationRate> <crossoverType> <Seed>");
             System.out.println("CrossoverType options: UNIFORM, TWO_POINT");
-            GA.set(1.0,0.1,200,1000,CrossoverType.UNIFORM);
+            GA.set(1.0,0.1,200,500,CrossoverType.UNIFORM);
             System.out.println("Applying preset ARGS");
+            System.out.println("Seed set to current time");
+            System.out.println(Seed.getInstance()); // setting seed to current time
             //System.exit(1);
         }else{
             int populationSize = Integer.parseInt(args[0]);
@@ -21,6 +21,7 @@ public class Main {
             double crossoverRate = Double.parseDouble(args[2]);
             double mutationRate = Double.parseDouble(args[3]);
             String crossoverTypeString = args[4];
+            long seed = Long.parseLong(args[5]);
             CrossoverType crossoverType;
             try {
                 crossoverType = CrossoverType.valueOf(crossoverTypeString.toUpperCase());
@@ -29,15 +30,14 @@ public class Main {
                 return;
             }
             GA.set(crossoverRate,mutationRate,populationSize,maxGenerations,crossoverType);
+            System.out.println(Seed.getInstance(seed));
         }
 
         System.out.println(GA);
-        System.out.println(Seed.getInstance());
 
         for (int i = 0; i < 50; i++) {
             GA.run();
         }
-
 
     }
 
