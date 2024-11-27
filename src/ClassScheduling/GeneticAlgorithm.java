@@ -8,7 +8,7 @@ import java.util.Random;
 public class GeneticAlgorithm {
 
     private final int TOURNAMENT_SIZE = 4;
-    private final double ELITISM = 0.02;
+    private final double ELITISM = 0.08;
 
     private double crossover;
     private double mutation;
@@ -17,15 +17,19 @@ public class GeneticAlgorithm {
     private int eliteProspects; // at least one
     private ScheduleData scheduleData;
     private List<Chromosome> population;
-    private Random random;
     private CrossoverType crossoverType;
     private OutputMode outputMode;
 
+    Random random;
+
+    private List<String> generationLines;
+    private List<String> bestSolution;
+
     public GeneticAlgorithm(ScheduleData scheduleData){
         this.scheduleData = scheduleData;
-        random = Seed.getInstance().getRandom();
         population = new ArrayList<>();
         outputMode = OutputMode.CSV;
+        generationLines = new ArrayList<>();
     }
 
 
@@ -41,6 +45,8 @@ public class GeneticAlgorithm {
 
 
     public void run(){
+
+        random = Seed.getInstance().getRandom();
 
         population.clear();
 
@@ -101,32 +107,34 @@ public class GeneticAlgorithm {
                 System.out.format("the highest fitness reached:%.3f \n", population.get(0).getFitness());
                 System.out.format("Average fitness:%.3f \n", averageFitness());
             }else{
-                System.out.println(i+","+population.get(0).getFitness()+","+averageFitness());
+                String tempLine = i+","+String.format("%.09f", population.get(0).getFitness())+","+String.format("%.09f", averageFitness());
+              //  System.out.println(tempLine);
+                generationLines.add(tempLine);
             }
 
             population = newPopulation;
 
             if(population.get(0).getFitness() == 1 || i == maxGenerations-1){
 
-                if(outputMode == OutputMode.USER) {
+               // if(outputMode == OutputMode.USER) {
                     if (population.get(0).getFitness() == 1) {
                         System.out.println("found solution on generation: " + i);
                     } else {
                         System.out.println("Didn't find a solution");
                         System.out.println("the highest fitness reached:" + population.get(0).getFitness());
                     }
-                }
+               // }
 
-                System.out.println("--- best solution Chromosome ---");
-                System.out.println(population.get(0));
-                System.out.println("------");
+                //System.out.println("--- best solution Chromosome ---");
+                //System.out.println(population.get(0));
+                //System.out.println("------");
 
                 break;
             }
-
-
         }
 
+        CsvWriter.writeFile(Seed.getSeedNum()+"."+shortString()+".csv",generationLines);
+        CsvWriter.writeFile(Seed.getSeedNum()+"-BestChromosome.txt",population.get(0).toString());
     }
 
     /**
@@ -186,4 +194,13 @@ public class GeneticAlgorithm {
                 ", crossoverType=" + crossoverType +
                 '}';
     }
+
+    public String shortString(){
+        return  "c" + crossover +
+                "_m" + mutation +
+                "_ps" + populationSize +
+                "_mg" + maxGenerations +
+                "_ct" + crossoverType;
+    }
+
 }

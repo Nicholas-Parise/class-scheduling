@@ -2,9 +2,9 @@ package ClassScheduling;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-        ScheduleData scheduleData = new ScheduleData("t2/courses.txt", "t2/rooms.txt", "t2/timeSlots.txt");
+        ScheduleData scheduleData = new ScheduleData("t1/courses.txt", "t1/rooms.txt", "t1/timeSlots.txt");
         GeneticAlgorithm GA = new GeneticAlgorithm(scheduleData);
 
         if (args.length < 6) {
@@ -35,8 +35,10 @@ public class Main {
 
         System.out.println(GA);
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 10; i++) {
             GA.run();
+            Thread.sleep(1000);
+            Seed.renew();
         }
 
     }

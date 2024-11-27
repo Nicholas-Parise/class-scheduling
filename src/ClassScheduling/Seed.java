@@ -12,6 +12,11 @@ public class Seed {
         this.random = new Random(seedNum);
     }
 
+    public static void renew(){
+        seedNum = System.currentTimeMillis();
+        instance = null;
+    }
+
 
     // public getter to make sure it's the same instance
     public static Seed getInstance(){
@@ -35,6 +40,10 @@ public class Seed {
 
     public Random getRandom() {
         return random;
+    }
+
+    public static long getSeedNum() {
+        return seedNum;
     }
 
     @Override
