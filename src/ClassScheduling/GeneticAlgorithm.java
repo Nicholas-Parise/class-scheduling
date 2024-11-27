@@ -133,8 +133,8 @@ public class GeneticAlgorithm {
             }
         }
 
-        CsvWriter.writeFile(Seed.getSeedNum()+"."+shortString()+".csv",generationLines);
-        CsvWriter.writeFile(Seed.getSeedNum()+"-BestChromosome.txt",population.get(0).toString());
+        CsvWriter.writeFile(Seed.getSeedNum()+"."+shortString()+".csv",shortString(),generationLines);
+        CsvWriter.writeFile(Seed.getSeedNum()+"-BestChromosome.txt",shortString(),population.get(0).toString());
     }
 
     /**

@@ -35,7 +35,7 @@ public class Main {
 
         System.out.println(GA);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             GA.run();
             Thread.sleep(1000);
             Seed.renew();

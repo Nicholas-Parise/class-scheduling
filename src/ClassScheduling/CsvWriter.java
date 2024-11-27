@@ -11,9 +11,10 @@ public class CsvWriter {
 
     }
 
-    public static void writeFile(String name,List<String> lines){
+    public static void writeFile(String name,String dir,List<String> lines){
 
-        File output = new File("data/"+name);
+        File output = new File("data/"+dir+"/"+name);
+        makeDir(output);
         try(PrintWriter pw = new PrintWriter(output)){
 
             for (String line: lines) {
@@ -22,14 +23,23 @@ public class CsvWriter {
         }catch (FileNotFoundException e){}
     }
 
-    public static void writeFile(String name,String lines){
+    public static void writeFile(String name,String dir,String lines){
 
-        File output = new File("data/"+name);
+        File output = new File("data/"+dir+"/"+name);
+        makeDir(output);
         try(PrintWriter pw = new PrintWriter(output)){
             pw.println(lines);
         }catch (FileNotFoundException e){}
     }
 
+
+    private static void makeDir(File f){
+        // Ensure directories exist
+        File parentDir = f.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs(); // Create directories if they do not exist
+        }
+    }
 
 
 }
