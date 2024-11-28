@@ -40,6 +40,9 @@ public class GeneticAlgorithm {
         this.maxGenerations = maxGenerations;
         this.crossoverType = crossoverType;
         eliteProspects = (int)(Math.ceil(populationSize*ELITISM)); // amount of elite members to bring over
+
+        if(eliteProspects <2) eliteProspects = 2;
+
         this.directory = directory;
     }
 
@@ -104,6 +107,9 @@ public class GeneticAlgorithm {
                 newPopulation.add(children.get(1));
             }
 
+            population = newPopulation;
+            population.sort(Collections.reverseOrder());
+
             if(outputMode == OutputMode.USER) {
                 System.out.println("Generation:" + i);
                 System.out.format("the highest fitness reached:%.3f \n", population.get(0).getFitness());
@@ -113,8 +119,6 @@ public class GeneticAlgorithm {
               //  System.out.println(tempLine);
                 generationLines.add(tempLine);
             }
-
-            population = newPopulation;
 
             /*
             if(population.get(0).getFitness() == 1 || i == maxGenerations-1){
@@ -190,7 +194,7 @@ public class GeneticAlgorithm {
     private double averageFitness(){
         double sum = 0;
         for (Chromosome c:population) {
-            sum +=  c.getFitness();
+            sum += c.getFitness();
         }
         return sum/populationSize;
     }

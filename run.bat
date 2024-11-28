@@ -1,1 +1,1 @@
-java -cp build ClassScheduling.Main 1000 500 1.0 0.2 UNIFORM -1 t1
+java -cp build ClassScheduling.Main 1000 500 0.9 0.1 UNIFORM -1 t2

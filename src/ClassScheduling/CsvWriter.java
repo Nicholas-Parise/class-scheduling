@@ -19,7 +19,9 @@ public class CsvWriter {
             for (String line: lines) {
                 pw.println(line);
             }
-        }catch (FileNotFoundException e){}
+        }catch (FileNotFoundException e){
+            System.out.println("write failed");
+        }
     }
 
     public static void writeFile(String name,String dir,String lines){
@@ -28,7 +30,9 @@ public class CsvWriter {
         makeDir(output);
         try(PrintWriter pw = new PrintWriter(output)){
             pw.println(lines);
-        }catch (FileNotFoundException e){}
+        }catch (FileNotFoundException e){
+            System.out.println("write failed");
+        }
     }
 
 
