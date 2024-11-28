@@ -19,11 +19,11 @@ public class GeneticAlgorithm {
     private List<Chromosome> population;
     private CrossoverType crossoverType;
     private OutputMode outputMode;
+    private String directory;
 
     Random random;
 
     private List<String> generationLines;
-    private List<String> bestSolution;
 
     public GeneticAlgorithm(ScheduleData scheduleData){
         this.scheduleData = scheduleData;
@@ -33,13 +33,14 @@ public class GeneticAlgorithm {
     }
 
 
-    public void set(double crossover, double mutation, int populationSize, int maxGenerations, CrossoverType crossoverType){
+    public void set(double crossover, double mutation, int populationSize, int maxGenerations, CrossoverType crossoverType, String directory){
         this.crossover = crossover;
         this.mutation = mutation;
         this.populationSize = populationSize;
         this.maxGenerations = maxGenerations;
         this.crossoverType = crossoverType;
         eliteProspects = (int)(Math.ceil(populationSize*ELITISM)); // amount of elite members to bring over
+        this.directory = directory;
     }
 
 
@@ -49,6 +50,7 @@ public class GeneticAlgorithm {
         random = Seed.getInstance().getRandom();
 
         population.clear();
+        generationLines.clear();
 
         // initialize the population with random chromosomes
         for (int i = 0; i < populationSize; i++) {
@@ -114,6 +116,7 @@ public class GeneticAlgorithm {
 
             population = newPopulation;
 
+            /*
             if(population.get(0).getFitness() == 1 || i == maxGenerations-1){
 
                // if(outputMode == OutputMode.USER) {
@@ -125,16 +128,26 @@ public class GeneticAlgorithm {
                     }
                // }
 
-                //System.out.println("--- best solution Chromosome ---");
-                //System.out.println(population.get(0));
-                //System.out.println("------");
+                System.out.println("--- best solution Chromosome ---");
+                System.out.println(population.get(0));
+                System.out.println("------");
 
                 break;
+
+
             }
+            */
         }
 
-        CsvWriter.writeFile(Seed.getSeedNum()+"."+shortString()+".csv",shortString(),generationLines);
-        CsvWriter.writeFile(Seed.getSeedNum()+"-BestChromosome.txt",shortString(),population.get(0).toString());
+
+        if (population.get(0).getFitness() == 1) {
+            System.out.println("found solution");
+        } else {
+            System.out.println("Didn't find a solution");
+        }
+
+        CsvWriter.writeFile(Seed.getSeedNum()+"."+shortString()+".csv",directory+"/"+shortString(),generationLines);
+        CsvWriter.writeFile(Seed.getSeedNum()+"-BestChromosome.txt",directory+"/"+shortString(),population.get(0).toString());
     }
 
     /**
