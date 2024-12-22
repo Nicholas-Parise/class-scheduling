@@ -8,14 +8,14 @@ Running in a terminal use the following parameters: java -cp build ClassScheduli
 
 After running all the files, each one will be created separately, to make it easier to perform tests on this data run the 'run-combine.bat' to combine all the csv into one file for each trial run.
 
---- Expected Values ---
-popSize: 	int [0, inf]
-maxGenerations: int [0, inf]
-crossoverRate:	double [0, 1.0]
-mutationRate:	double [0, 1.0]
-CrossoverType: 	UNIFORM, TWO_POINT
-Seed:           <0 or VALUE
-Directory:	relative directory
+--- Expected Values ---<br>
+popSize: 	int [0, inf]<br>
+maxGenerations: int [0, inf]<br>
+crossoverRate:	double [0, 1.0]<br>
+mutationRate:	double [0, 1.0]<br>
+CrossoverType: 	UNIFORM, TWO_POINT<br>
+Seed:           <0 or VALUE<br>
+Directory:	relative directory<br>
 
 Notes:
 mutation Rate should stay lower than 20% or it will probably never converge.
