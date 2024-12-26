@@ -14,7 +14,7 @@ maxGenerations: int [0, inf]<br>
 crossoverRate:	double [0, 1.0]<br>
 mutationRate:	double [0, 1.0]<br>
 CrossoverType: 	UNIFORM, TWO_POINT<br>
-Seed:           <0 or VALUE<br>
+Seed:           -1 or VALUE<br>
 Directory:	relative directory<br>
 <br>
 Notes:<br>
