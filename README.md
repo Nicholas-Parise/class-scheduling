@@ -4,7 +4,7 @@ Compile the files with 'compile.bat'
 
 See 'run.bat' to run the program, run 'run-t1.bat' or 'run-t2.bat' to batch run every single test for t1 or t2 respectively
 
-Running in a terminal use the following parameters: java -cp build ClassScheduling.Main <popSize> <maxGenerations> <crossoverRate> <mutationRate> <crossoverType>
+Running in a terminal use the following parameters: java -cp build ClassScheduling.Main popSize maxGenerations crossoverRate mutationRate crossoverType Seed Directory
 
 After running all the files, each one will be created separately, to make it easier to perform tests on this data run the 'run-combine.bat' to combine all the csv into one file for each trial run.
 
